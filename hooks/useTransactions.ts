@@ -25,13 +25,18 @@ const useTransactions = (isSignedIn: UseTransactionModel) => {
 
   const getTransaction = useCallback(async () => {
     if (isSignedIn) {
-      await axios
-        .get(`https://stacks-node-api.testnet.stacks.co/extended/v1/tx/mempool?${publicAddress}`)
-        .then(res => {
-          setTransactions(res.data.results);
-        });
+      try {
+        const response = await axios.get(
+          `https://stacks-node-api.testnet.stacks.co/extended/v1/tx/mempool?address=${publicAddress}`
+        );
+        setTransactions(response.data.results);
+      } catch (e) {
+        console.error(e);
+        throw e;
+      }
+      subscribeToTransactions();
     }
-  }, [publicAddress, isSignedIn]);
+  }, [publicAddress, isSignedIn, subscribeToTransactions]);
 
   return { transactions, getTransaction, subscribeToTransactions };
 };
