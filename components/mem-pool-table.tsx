@@ -18,6 +18,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
       }
       subscribeToTransactions(testnetAdress);
     }, []);
+    
     return (
       // I would never do this in prod, but it looks cool to use vanilla html :D
       <form

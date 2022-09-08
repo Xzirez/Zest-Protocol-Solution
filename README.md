@@ -1,104 +1,20 @@
-# micro-stacks + next.js
+# Some information and issues i was having
 
-This is an example Next.js application that implements `@micro-stacks/react` to add Stacks-based web3 authentication.
-The example also details how to share session state between client and server
-using [`iron-session`](https://github.com/vvo/iron-session.
+👋 Couple quick comments. This app is obviously not a production ready master piece. I have neglected to use react-form, form validators, lots of async error handling and well i test like nothing. For example i use vanilla html form. Why you might ask? I have no used a vanilla html form in years and it was super fun. I even wanted to use document selectors...
 
-This example is part of a guide found on
-micro-stacks.dev: [Building a Stacks app with Next.js](https://micro-stacks.dev/guides/with-nextjs)
+There is one big issue with the hydration, which i summarize below. Basically you get an error when refreshing the page. It could be i solved this in the final version if not - please don't refresh the page :(
 
-Online demo: [nextjs-example.micro-stacks.dev](https://nextjs-example.micro-stacks.dev)
+## Some issues i faced: 
+ ✍️
 
-## Overview
+ - So there is one big issue with using the useAccount hook. The account only updates for mainnet account address. This took me maybe an hour to realize when tweaking the subscription. I made a solution to either use hardcoded account or to have the user input their own account. I opened an issue here: https://github.com/fungible-systems/micro-stacks/issues/162
+ - Subscription is hard to test. So the issue here is that the block consolidation rate is every 10 mins+, which makes it really hard for me to test the subscriptions. There are a couple solutions which all take some time: 
+  A. I could try to use the send transaction api instead just to check it quicker and it might be that i did do this in the final solution. It's however out of scope for the task.
+  B. I could make a unit test for the subscription. Unit tests are not 100% covering for a real scenario, but it's hard to given a 100% coverage to really miss vs the real implementation (why i prefer to test everything).
+- BIGGEST issue, there is somethign with the hydration and Next.JS. So Emil kinda told me to just delete a bunch of the code in the beginning, which broke some of the server side hydration stuff. I have looked at fixing this, but the easiest is prblly to skip the server side stuff for now. Why we have Next.js if we skip it however is well ehm well not optimal.
 
-In this example:
+## Closing thoughts
 
-- micro-stacks related dependencies are installed
-- Stacks auth is implemented
-- iron-session as a dependency
-- API routes for saving/destroying session
-- `_app.tsx` has the `ClientProvider` for micro-stacks context
-- Fetching the user session and passing it to `ClientProvider`
+🔧 All in all, it's super cool to see that a BTC L1 can do lots of this DEFI stuff. From looking over the source code of the libraries i can say they are well organized compared to some of the EVM libraries i used in the past. Im generally pretty opimistic towards the quality aspect, we just have to you know BUILD out the ecosystem 🛠
 
-## Getting Started
 
-First, create a new `.env.local` file:
-
-```
-# ⚠️ The SECRET_COOKIE_PASSWORD should never be inside your repository directly, it's here only to ease
-# the example deployment
-# For local development, you should store it inside a `.env.local` gitignored file
-# See https://nextjs.org/docs/basic-features/environment-variables#loading-environment-variables
-
-SECRET_COOKIE_PASSWORD=2gyZ3GDw3LHZQKDhPmPDL3sjREVRXPr8
-```
-
-Then install your dependencies:
-
-```bash
-pnpm i
-# or
-yarn
-```
-
-Then run the dev task:
-
-```bash
-pnpm dev
-# or
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed
-on [http://localhost:3000/api/session/save](http://localhost:3000/api/session/save)
-or [http://localhost:3000/api/session/destroy](http://localhost:3000/api/session/destroy). These endpoint can be found
-in `pages/api/session/save.ts` and `pages/api/session/destroy.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated
-as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about `micro-stacks`:
-
-- [Overview](https://micro-stacks.dev/docs/overview)
-- [Getting started](https://micro-stacks.dev/docs/getting-started)
-- [Authentication](https://micro-stacks.dev/docs/authentication)
-- [Transaction Signing](https://micro-stacks.dev/docs/transactions)
-- [Working with post conditions](https://micro-stacks.dev/docs/transactions/working-with-post-conditions)
-- [Message Signing](https://micro-stacks.dev/docs/message-signing)
-- [Building a Remix app](https://micro-stacks.dev/guides/with-remix)
-- [Building a Next.js app](https://micro-stacks.dev/guides/with-nextjs)
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions
-are welcome!
-
-## Community
-
-<p style="display: flex; align-items: center; justify-content: flex-start; gap: 10px">
-  <img alt="stars" src="https://badgen.net/github/stars/fungible-systems/micro-stacks" className="inline-block mr-2"/>
-  <img alt="downloads" src="https://badgen.net/npm/dt/micro-stacks" className="inline-block mr-2"/>
-  <img alt="license" src="https://badgen.net/npm/license/micro-stacks" className="inline-block mr-2"/>
-</p>
-
-`micro-stacks` is created and maintained by [Fungible Systems](https://fungible.systems), a web3-focused design and
-engineering studio.
-
-Follow [@FungibleSystems](https://twitter.com/FungibleSystems) on Twitter for updates and memes :~)
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use
-the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
