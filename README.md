@@ -12,9 +12,11 @@ There is one big issue with the hydration, which i summarize below. Basically yo
  ✍️
 
  - So there is one big issue with using the useAccount hook. The account only updates for mainnet account address. This took me maybe an hour to realize when tweaking the subscription. I made a solution to either use hardcoded account or to have the user input their own account. I opened an issue here: https://github.com/fungible-systems/micro-stacks/issues/162
- - Subscription is hard to test. So the issue here is that the block consolidation rate is every 10 mins+, which makes it really hard for me to test the subscriptions. There are a couple solutions which all take some time: 
-  A. I could try to use the send transaction api instead just to check it quicker and it might be that i did do this in the final solution. It's however out of scope for the task.
-  B. I could make a unit test for the subscription. Unit tests are not 100% covering for a real scenario, but it's hard to given a 100% coverage to really miss vs the real implementation (why i prefer to test everything).
+
+ - I managed to test the subscription by using the wallet transfer. Not sure why i didn't think of this before. However, i am not able to connect to the endpoints provided in the docs. Only the mainnet sub works for me. The rest are giving me errors.
+  
+![Image showing ws errors](./public/error_example.png)
+
 - BIGGEST issue, there is somethign with the hydration and Next.JS. So Emil kinda told me to just delete a bunch of the code in the beginning, which broke some of the server side hydration stuff. I have looked at fixing this, but the easiest is prblly to skip the server side stuff for now. Why we have Next.js if we skip it however is well ehm well not optimal.
 
 ## Improvements

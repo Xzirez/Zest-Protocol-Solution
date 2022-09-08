@@ -1,19 +1,24 @@
 import axios from 'axios';
 import { useCallback } from 'react';
 import { connectWebSocketClient, TransactionEventsResponse } from '@stacks/blockchain-api-client';
-import { userAddress } from '../common/constants';
+import {
+  stacksTestNetV1APIUrl,
+  stacksWebSocketTestNetV1Url,
+  userAddress,
+} from '../common/constants';
 
 const useTransactions = (isSignedIn: boolean) => {
   const subscribeToTransactions = useCallback(async (testnetAddress: string) => {
-    const client = await connectWebSocketClient('ws://stacks-node-api.stacks.co/');
+    const client = await connectWebSocketClient(stacksWebSocketTestNetV1Url);
 
     const sub = await client.subscribeAddressTransactions(
       testnetAddress === '' ? userAddress : testnetAddress,
       event => {
         console.log(event);
+        return event;
       }
     );
-    return sub;
+    await sub.unsubscribe();
   }, []);
 
   const getTransaction = useCallback(
@@ -22,7 +27,7 @@ const useTransactions = (isSignedIn: boolean) => {
         try {
           const response: TransactionEventsResponse = await axios
             .get(
-              `https://stacks-node-api.testnet.stacks.co/extended/v1/tx/mempool?address=${
+              `${stacksTestNetV1APIUrl}tx/mempool?address=${
                 testnetAddress === '' ? userAddress : testnetAddress
               }`
             )
@@ -40,10 +45,9 @@ const useTransactions = (isSignedIn: boolean) => {
     async (testnetAddress: string) => {
       if (isSignedIn) {
         try {
-          const response = await axios.post(
-            'https://stacks-node-api.testnet.stacks.co/extended/v1/faucets/stx',
-            { address: testnetAddress }
-          );
+          const response = await axios.post(`${stacksTestNetV1APIUrl}faucets/stx`, {
+            address: testnetAddress,
+          });
           return response.data;
         } catch (e) {
           throw e;

@@ -12,3 +12,7 @@ export const APP_URL =
 // is not the same as my wallet address. I tried to figure out why, but seems to be a common bug
 // I opened the following issuse: https://github.com/fungible-systems/micro-stacks/issues/162
 export const userAddress = 'ST3Y4P66VZ7JG5QXQ8MFR8D08GGBJR0KJCT2NXN4F';
+
+export const stacksTestNetV1APIUrl = 'https://stacks-node-api.testnet.stacks.co/extended/v1/';
+
+export const stacksWebSocketTestNetV1Url = 'ws://stacks-node-api.testnet.stacks.co/v2/';
