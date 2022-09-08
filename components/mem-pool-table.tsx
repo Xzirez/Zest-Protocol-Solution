@@ -78,6 +78,12 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
             <div key={`key: ${transaction.tx_id}`}>
               <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
                 <p>TransactionId: {transaction.tx_id}</p>
+                {transaction.token_transfer.amount && (
+                  // Not 100% sure why, but there is a couple extra zeros.
+                  // I assume this is similar to BigNumber in EVM.
+                  // Do we need to do these conversions with stacks too and if so any lib for it?
+                  <p>Value: {transaction.token_transfer.amount / 1000000}</p>
+                )}
                 <p>Status: {transaction.tx_status}</p>
               </div>
             </div>
