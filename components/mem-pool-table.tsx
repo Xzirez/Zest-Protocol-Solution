@@ -1,20 +1,25 @@
+import { AxiosError } from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useTransactions from '../hooks/useTransactions';
 
 const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
   const [transactions, setTransactions] = useState([]);
+  const [error, setError] = useState('');
+  const { getTransaction, subscribeToTransactions, getTestTokensFromFaucet } =
+    useTransactions(isSignedIn);
 
-  const FormAndButton = () => {
-    const { getTransaction, subscribeToTransactions } = useTransactions({ isSignedIn });
-
-    const getTransactionsAndSubscribe = useCallback(
-      async (testnetAdress: string) => {
+  const GetTransactionsForm = () => {
+    const getTransactionsAndSubscribe = useCallback(async (testnetAdress: string) => {
+      try {
         setTransactions(await getTransaction(testnetAdress));
-        subscribeToTransactions();
-      },
-      [getTransaction, subscribeToTransactions]
-    );
+      } catch (e: any) {
+        console.log(e);
+        setError('Get Transactions Request Failed with status code ' + e.response.status);
+      }
+      subscribeToTransactions(testnetAdress);
+    }, []);
     return (
+      // I would never do this in prod, but it looks cool to use vanilla html :D
       <form
         onSubmit={event => {
           event.preventDefault();
@@ -24,6 +29,27 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
         <input id="inputForm" type="text" placeholder="Input testnet address" />
         <button type="submit" style={{ marginTop: '10px' }}>
           Get Transactions
+        </button>
+      </form>
+    );
+  };
+
+  const GetFuacetTokensForm = () => {
+    return (
+      // I would never do this in prod, but it looks cool to use vanilla html :D
+      <form
+        onSubmit={async event => {
+          event.preventDefault();
+          try {
+            await getTestTokensFromFaucet(event.currentTarget.children[0].value);
+          } catch (e: any) {
+            setError('Faucet Request Failed with status code ' + e.response.status);
+          }
+        }}
+      >
+        <input id="inputForm" type="text" placeholder="Input testnet address" />
+        <button type="submit" style={{ marginTop: '10px' }}>
+          Get Faucet Tokens
         </button>
       </form>
     );
@@ -39,7 +65,9 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
         alignItems: 'center',
       }}
     >
-      <FormAndButton />
+      <GetTransactionsForm />
+      <GetFuacetTokensForm />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       {transactions ? (
         <div>
           {transactions.map(transaction => (

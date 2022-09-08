@@ -6,6 +6,7 @@ import type { NextPage, GetServerSidePropsContext } from 'next';
 import MemPoolTable from '../components/mem-pool-table';
 import { useAuth } from '@micro-stacks/react';
 import { useMemo } from 'react';
+import FaucetButton from '../components/faucet-button';
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   return {
