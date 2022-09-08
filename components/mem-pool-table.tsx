@@ -3,18 +3,43 @@ import useTransactions from '../hooks/useTransactions';
 
 const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
   const [transactions, setTransactions] = useState([]);
-  const { getTransaction, subscribeToTransactions } = useTransactions({ isSignedIn });
 
-  const getTransactionsAndSubscribe = useCallback(async () => {
-    setTransactions(await getTransaction());
-    subscribeToTransactions();
-  }, [getTransaction, subscribeToTransactions]);
+  const FormAndButton = () => {
+    const { getTransaction, subscribeToTransactions } = useTransactions({ isSignedIn });
+
+    const getTransactionsAndSubscribe = useCallback(
+      async (testnetAdress: string) => {
+        setTransactions(await getTransaction(testnetAdress));
+        subscribeToTransactions();
+      },
+      [getTransaction, subscribeToTransactions]
+    );
+    return (
+      <form
+        onSubmit={event => {
+          event.preventDefault();
+          getTransactionsAndSubscribe(event.currentTarget.children[0].value);
+        }}
+      >
+        <input id="inputForm" type="text" placeholder="Input testnet address" />
+        <button type="submit" style={{ marginTop: '10px' }}>
+          Get Transactions
+        </button>
+      </form>
+    );
+  };
 
   return (
-    <>
-      <button style={{ marginTop: '10px' }} onClick={() => getTransactionsAndSubscribe()}>
-        Get Transactions
-      </button>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '5px',
+        marginTop: '10px',
+        alignItems: 'center',
+      }}
+    >
+      <FormAndButton />
       {transactions ? (
         <div>
           {transactions.map(transaction => (
@@ -29,7 +54,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
       ) : (
         <div>No Transactions to show</div>
       )}
-    </>
+    </div>
   );
 };
 

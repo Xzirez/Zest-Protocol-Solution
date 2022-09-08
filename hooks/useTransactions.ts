@@ -14,11 +14,11 @@ const useTransactions = (isSignedIn: { isSignedIn: boolean }) => {
     return sub;
   }, []);
 
-  const getTransaction = useCallback(async () => {
+  const getTransaction = useCallback(async (testnetAddress: string) => {
     if (isSignedIn) {
       try {
         const response = await axios.get(
-          `https://stacks-node-api.testnet.stacks.co/extended/v1/tx/mempool?address=${userAddress}`
+          `https://stacks-node-api.testnet.stacks.co/extended/v1/tx/mempool?address=${testnetAddress}`
         );
         return response.data.results;
       } catch (e) {
@@ -27,6 +27,8 @@ const useTransactions = (isSignedIn: { isSignedIn: boolean }) => {
       }
     }
   }, [isSignedIn]);
+
+
 
   return { getTransaction, subscribeToTransactions };
 };
