@@ -1,8 +1,9 @@
+import { TransactionEventsResponse } from '@stacks/blockchain-api-client';
 import { useCallback, useState } from 'react';
 import useTransactions from '../hooks/useTransactions';
 
 const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
-  const [transactions, setTransactions] = useState([]);
+  const [transactions, setTransactions] = useState<TransactionEventsResponse | undefined>();
   const [error, setError] = useState('');
   const { getTransaction, subscribeToTransactions, getTestTokensFromFaucet } =
     useTransactions(isSignedIn);
@@ -70,7 +71,8 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {transactions ? (
         <div>
-          {transactions.map(transaction => (
+          {transactions.results.map(transaction => (
+            // I wanted to type transaction to get rid of this errors, but the results are not typed so whatever
             <div key={`key: ${transaction.tx_id}`}>
               <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>
                 <p>TransactionId: {transaction.tx_id}</p>
@@ -80,7 +82,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
           ))}
         </div>
       ) : (
-        <div>No Transactions to show</div>
+        <p style={{ marginTop: '5px' }}>No Transactions to show. Try again.</p>
       )}
     </div>
   );

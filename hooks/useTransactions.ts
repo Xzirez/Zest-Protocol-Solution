@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useCallback } from 'react';
-import { connectWebSocketClient } from '@stacks/blockchain-api-client';
+import { connectWebSocketClient, TransactionEventsResponse } from '@stacks/blockchain-api-client';
 import { userAddress } from '../constants';
 
 const useTransactions = (isSignedIn: boolean) => {
@@ -20,12 +20,14 @@ const useTransactions = (isSignedIn: boolean) => {
     async (testnetAddress: string) => {
       if (isSignedIn) {
         try {
-          const response = await axios.get(
-            `https://stacks-node-api.testnet.stacks.co/extended/v1/tx/mempool?address=${
-              testnetAddress === '' ? userAddress : testnetAddress
-            }`
-          );
-          return response.data.results;
+          const response: TransactionEventsResponse = await axios
+            .get(
+              `https://stacks-node-api.testnet.stacks.co/extended/v1/tx/mempool?address=${
+                testnetAddress === '' ? userAddress : testnetAddress
+              }`
+            )
+            .then(res => res.data);
+          return response;
         } catch (e) {
           throw e;
         }

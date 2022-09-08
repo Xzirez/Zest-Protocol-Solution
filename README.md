@@ -1,6 +1,6 @@
 # Some information and issues i was having
 
-👋 Couple quick comments. This app is obviously not a production ready master piece. I have neglected to use react-form, form validators, lots of async error handling and well i test like nothing. For example i use vanilla html form. Why you might ask? I have no used a vanilla html form in years and it was super fun. I even wanted to use document selectors...
+👋 Couple quick comments. This app is obviously not a production ready master piece. I spent a couple hours more then needed, but not enough for production. I have neglected to use react-form, form validators, lots of async error handling and well i test like nothing. For example i use vanilla html form. Why you might ask? I have no used a vanilla html form in years and it was super fun. I even wanted to use document selectors...
 
 There is one big issue with the hydration, which i summarize below. Basically you get an error when refreshing the page. It could be i solved this in the final version if not - please don't refresh the page :(
 
