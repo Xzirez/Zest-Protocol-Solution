@@ -1,15 +1,18 @@
-import { useAccount, useAuth } from '@micro-stacks/react';
-import { Subscription } from '@project-serum/anchor';
-import axios from 'axios';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import useTransactions from '../hooks/useTransactions';
 
 const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
-  const { getTransaction, transactions } = useTransactions({ isSignedIn });
+  const [transactions, setTransactions] = useState([]);
+  const { getTransaction, subscribeToTransactions } = useTransactions({ isSignedIn });
+
+  const getTransactionsAndSubscribe = useCallback(async () => {
+    setTransactions(await getTransaction());
+    subscribeToTransactions();
+  }, [getTransaction, subscribeToTransactions]);
 
   return (
     <>
-      <button style={{ marginTop: '10px' }} onClick={() => getTransaction()}>
+      <button style={{ marginTop: '10px' }} onClick={() => getTransactionsAndSubscribe()}>
         Get Transactions
       </button>
       {transactions ? (
@@ -24,7 +27,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
           ))}
         </div>
       ) : (
-        <div>Error Could not load transaction</div>
+        <div>No Transactions to show</div>
       )}
     </>
   );
