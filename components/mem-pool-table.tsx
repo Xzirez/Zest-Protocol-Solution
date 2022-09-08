@@ -1,5 +1,4 @@
-import { AxiosError } from 'axios';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import useTransactions from '../hooks/useTransactions';
 
 const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
@@ -18,7 +17,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
       }
       subscribeToTransactions(testnetAdress);
     }, []);
-    
+
     return (
       // I would never do this in prod, but it looks cool to use vanilla html :D
       <form
@@ -28,7 +27,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
         }}
       >
         <input id="inputForm" type="text" placeholder="Input testnet address" />
-        <button type="submit" style={{ marginTop: '10px' }}>
+        <button type="submit" style={{ marginTop: '10px', marginLeft: '5px' }}>
           Get Transactions
         </button>
       </form>
@@ -49,7 +48,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
         }}
       >
         <input id="inputForm" type="text" placeholder="Input testnet address" />
-        <button type="submit" style={{ marginTop: '10px' }}>
+        <button type="submit" style={{ marginTop: '10px', marginLeft: '5px' }}>
           Get Faucet Tokens
         </button>
       </form>

@@ -1,6 +1,5 @@
-import { useAccount } from '@micro-stacks/react';
 import axios from 'axios';
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { connectWebSocketClient } from '@stacks/blockchain-api-client';
 import { userAddress } from '../constants';
 
