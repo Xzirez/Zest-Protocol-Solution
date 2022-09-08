@@ -1,6 +1,10 @@
-# Some information and issues i was having
+# See the project LIVE! https://zest-protocol-solution-lqzeymu6a-xzirez.vercel.app/
 
-👋 Couple quick comments. This app is obviously not a production ready master piece. I spent a couple hours more then needed, but not enough for production. I have neglected to use react-form, form validators, lots of async error handling and well i test like nothing. For example i use vanilla html form. Why you might ask? I have no used a vanilla html form in years and it was super fun. I even wanted to use document selectors...
+# Some improvements, issues and comments
+
+👋 
+
+Couple quick comments. This app is obviously not a production ready master piece. I spent a couple hours more then needed, but not enough for production. I have neglected to use react-form, form validators, lots of async error handling and well i test like nothing. For example i use vanilla html form. Why you might ask? I have no used a vanilla html form in years and it was super fun. I even wanted to use document selectors...
 
 There is one big issue with the hydration, which i summarize below. Basically you get an error when refreshing the page. It could be i solved this in the final version if not - please don't refresh the page :(
 
@@ -12,6 +16,13 @@ There is one big issue with the hydration, which i summarize below. Basically yo
   A. I could try to use the send transaction api instead just to check it quicker and it might be that i did do this in the final solution. It's however out of scope for the task.
   B. I could make a unit test for the subscription. Unit tests are not 100% covering for a real scenario, but it's hard to given a 100% coverage to really miss vs the real implementation (why i prefer to test everything).
 - BIGGEST issue, there is somethign with the hydration and Next.JS. So Emil kinda told me to just delete a bunch of the code in the beginning, which broke some of the server side hydration stuff. I have looked at fixing this, but the easiest is prblly to skip the server side stuff for now. Why we have Next.js if we skip it however is well ehm well not optimal.
+
+## Improvements
+
+- [ ] TEST TEST TEST. Jest, Mocha, Chai, Tea whatever. Test it.
+- [ ] Subscription worked, but really hard to test. Should be revisited
+- [ ] Fix hydration issues. Possibly ask author of micro stasks.
+- [ ] Build out UI
 
 ## Closing thoughts
 

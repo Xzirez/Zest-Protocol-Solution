@@ -24,6 +24,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
       <form
         onSubmit={event => {
           event.preventDefault();
+          // @ts-ignore
           getTransactionsAndSubscribe(event.currentTarget.children[0].value);
         }}
       >
@@ -42,6 +43,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
         onSubmit={async event => {
           event.preventDefault();
           try {
+            // @ts-ignore
             await getTestTokensFromFaucet(event.currentTarget.children[0].value);
           } catch (e: any) {
             setError('Faucet Request Failed with status code ' + e.response.status);
@@ -71,7 +73,7 @@ const MemPoolTable = ({ isSignedIn }: { isSignedIn: boolean }) => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {transactions ? (
         <div>
-          {transactions.results.map(transaction => (
+          {transactions.results.map((transaction: any) => (
             // I wanted to type transaction to get rid of this errors, but the results are not typed so whatever
             <div key={`key: ${transaction.tx_id}`}>
               <div style={{ display: 'flex', flexDirection: 'row', gap: '5px' }}>

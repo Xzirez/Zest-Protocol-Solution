@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useCallback } from 'react';
 import { connectWebSocketClient, TransactionEventsResponse } from '@stacks/blockchain-api-client';
-import { userAddress } from '../constants';
+import { userAddress } from '../common/constants';
 
 const useTransactions = (isSignedIn: boolean) => {
   const subscribeToTransactions = useCallback(async (testnetAddress: string) => {

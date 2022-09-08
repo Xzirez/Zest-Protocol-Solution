@@ -9,12 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const onSignOut: ClientConfig['onSignOut'] = useCallback(async () => {}, []);
 
   return (
-    <ClientProvider
-      appName="Nextjs + Microstacks"
-      appIconUrl="/vercel.png"
-      dehydratedState={pageProps?.dehydratedState}
-      onSignOut={onSignOut}
-    >
+    <ClientProvider appName="Zest Protocol Solution" appIconUrl="/vercel.png" onSignOut={onSignOut}>
       <Component {...pageProps} />
     </ClientProvider>
   );
