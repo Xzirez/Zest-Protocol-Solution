@@ -3,13 +3,23 @@ import { ClientProvider } from '@micro-stacks/react';
 import { useCallback } from 'react';
 
 import type { AppProps } from 'next/app';
-import type { ClientConfig } from '@micro-stacks/client';
+import { ClientConfig, MicroStacksClient } from '@micro-stacks/client';
+import { destroySession, saveSession } from '../common/fetchers';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const onSignOut: ClientConfig['onSignOut'] = useCallback(async () => {}, []);
-
   return (
-    <ClientProvider appName="Zest Protocol Solution" appIconUrl="/vercel.png" onSignOut={onSignOut}>
+    <ClientProvider
+      network={'testnet'}
+      appName="Test"
+      appIconUrl="/vercel.png"
+      dehydratedState={pageProps?.dehydratedState}
+      onPersistState={useCallback(async (dehydratedState: string) => {
+        await saveSession(dehydratedState);
+      }, [])}
+      onSignOut={useCallback(async () => {
+        await destroySession();
+      }, [])}
+    >
       <Component {...pageProps} />
     </ClientProvider>
   );
